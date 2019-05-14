@@ -41,6 +41,8 @@ spec:
         volumeMounts:
         - mountPath: /etc/config
           name: config-volume
+        - mountPath: /srv/jupyterhub
+          name: jupyterhub
       serviceAccountName: jupyter
       volumes:
       - configMap:
@@ -48,4 +50,12 @@ spec:
         name: config-volume
   updateStrategy:
     type: RollingUpdate
-  volumeClaimTemplates: []
+  volumeClaimTemplates:
+  - metadata:
+      name: jupyterhub
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
